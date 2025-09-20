@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treviaa - Discover Incredible India</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Emergency contacts styles -->
+    <style>
+    .emergency-section { padding: 2rem 0; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.01)); }
+    .emergency-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .emergency-card { display: block; padding: 0.9rem; border-radius: 10px; border: 1px solid rgba(0,0,0,0.06); background: var(--bg-primary); text-decoration: none; color: inherit; box-shadow: var(--shadow-sm); transition: transform 0.15s, box-shadow 0.15s; }
+    .emergency-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+    .emergency-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .emergency-number { font-weight: 700; font-size: 1.25rem; color: var(--primary-color); }
+    @media (max-width:600px){ .emergency-grid{ grid-template-columns: 1fr 1fr; } }
+    </style>
+
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-text">Treviaa</span>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="nav-menu" id="nav-menu">
+                <a href="#" class="nav-link" onclick="showPage('home'); return false;">Home</a>
+                <a href="#" class="nav-link" onclick="showPage('explore'); return false;">Explore</a>
+                <a href="#" class="nav-link" onclick="showPage('trip-planner'); return false;">Cost Planner</a>
+                <a href="#" class="nav-link" onclick="showPage('reviews'); return false;">Reviews</a>
+                <a href="#" class="nav-link auth-link" onclick="showPage('auth'); return false;">Sign In</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title animate-fade-in">
+                    Discover India with <span class="text-accent">Treviaa</span>
+                </h1>
+                <p class="hero-subtitle animate-fade-in">
+                    Your AI-powered travel companion for exploring incredible India
+                </p>
+                
+                <!-- Search Bar -->
+                <form class="search-form animate-scale-in" onsubmit="searchPlace(event)">
+                    <div class="search-container">
+                        <div class="search-input-container">
+                            <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <input type="text" id="search-input" placeholder="Where do you want to go?" class="search-input">
+                        </div>
+                        <button type="submit" class="search-button">
+                            <svg class="button-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            Explore
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <button class="action-button" onclick="showPage('trip-planner')">
+                        <svg class="button-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                        Plan Trip
+                    </button>
+                    <button class="action-button">
+                        <svg class="button-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        Photo Search
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Destinations -->
+        <section class="featured-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Popular Destinations</h2>
+                    <p class="section-subtitle">Discover the most loved places in India</p>
+                </div>
+
+                <div class="cards-grid" id="featured-places">
+                    <!-- Cards will be generated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Why Choose Treviaa?</h2>
+                    <p class="section-subtitle">Everything you need for the perfect Indian journey</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card animate-fade-in">
+                        <div class="feature-icon">🍽️</div>
+                        <h3 class="feature-title">Best Restaurants</h3>
+                        <p class="feature-desc">Discover top-rated local cuisine</p>
+                    </div>
+                    <div class="feature-card animate-fade-in">
+                        <div class="feature-icon">🏨</div>
+                        <h3 class="feature-title">Perfect Stays</h3>
+                        <p class="feature-desc">Find hotels with real-time availability</p>
+                    </div>
+                    <div class="feature-card animate-fade-in">
+                        <div class="feature-icon">🛡️</div>
+                        <h3 class="feature-title">Safety First</h3>
+                        <p class="feature-desc">Get safety insights for every location</p>
+                    </div>
+                    <div class="feature-card animate-fade-in">
+                        <div class="feature-icon">🚇</div>
+                        <h3 class="feature-title">Smart Transit</h3>
+                        <p class="feature-desc">Metro & railway info with pet policies</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Get Started Section -->
+        <section class="get-started-section">
+            <div class="container">
+                <button class="get-started-button" onclick="showPage('auth')">Get Started</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Place Details Page -->
+    <div id="place-details-page" class="page">
+        <div class="container place-details-container">
+            <div class="place-header animate-fade-in">
+                <h1 class="place-title">Welcome to <span id="place-name">Mumbai</span></h1>
+                <p class="place-description" id="place-description">
+                    Mumbai, the financial capital of India, is known for its vibrant culture, Bollywood industry, and bustling street life.
+                </p>
+            </div>
+
+            <!-- Quick Info Cards -->
+            <div class="info-cards-grid">
+                <div class="info-card animate-scale-in">
+                    <div class="info-card-header">
+                        <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <h3>Known For</h3>
+                    </div>
+                    <div class="badges-container" id="place-badges">
+                        <!-- Badges will be generated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="info-card animate-scale-in">
+                    <div class="info-card-header">
+                        <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                        </svg>
+                        <h3>Safety Rating</h3>
+                    </div>
+                    <div class="safety-rating">
+                        <div class="rating-score" id="safety-score">4.2/5</div>
+                        <p class="rating-text">Generally Safe</p>
+                    </div>
+                </div>
+
+                <div class="info-card animate-scale-in">
+                    <div class="info-card-header">
+                        <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                        </svg>
+                        <h3>Accessibility</h3>
+                    </div>
+                    <p class="accessibility-text" id="accessibility-info">
+                        Wheelchair accessible metros, ramps in most public places
+                    </p>
+                </div>
+            </div>
+
+            <!-- Details Grid -->
+            <div class="details-grid">
+                <!-- Restaurants -->
+                <div class="detail-card animate-fade-in">
+                    <div class="detail-header">
+                        <span class="detail-emoji">🍽️</span>
+                        <h3>Nearby Restaurants</h3>
+                        <p>Top-rated dining experiences</p>
+                    </div>
+                    <div class="detail-list" id="restaurants-list">
+                        <!-- Restaurant items will be generated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Hotels -->
+                <div class="detail-card animate-fade-in">
+                    <div class="detail-header">
+                        <span class="detail-emoji">🏨</span>
+                        <h3>Nearby Hotels</h3>
+                        <p>Comfortable stays with real-time availability</p>
+                    </div>
+                    <div class="detail-list" id="hotels-list">
+                        <!-- Hotel items will be generated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Metro Stations -->
+                <div class="detail-card animate-fade-in">
+                    <div class="detail-header">
+                        <span class="detail-emoji">🚇</span>
+                        <h3>Nearest Metro Stations</h3>
+                        <p>Quick transit options</p>
+                    </div>
+                    <div class="detail-list" id="metro-list">
+                        <!-- Metro stations will be generated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Railway Stations -->
+                <div class="detail-card animate-fade-in">
+                    <div class="detail-header">
+                        <span class="detail-emoji">🚉</span>
+                        <h3>Nearest Railway Stations</h3>
+                        <p>Long distance travel options</p>
+                    </div>
+                    <div class="detail-list" id="railway-list">
+                        <!-- Railway stations will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="primary-button animate-scale-in">
+                    <svg class="button-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                    </svg>
+                    Share Experience
+                </button>
+                <button class="secondary-button animate-scale-in" onclick="showPage('trip-planner')">
+                    <svg class="button-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    </svg>
+                    Plan Trip Here
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explore Page -->
+    <div id="explore-page" class="page">
+        <div class="container">
+            <div class="page-header animate-fade-in">
+                <h1 class="page-title">Explore India</h1>
+                <p class="page-subtitle">Discover amazing destinations across incredible India</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="explore-search animate-scale-in">
+                <form onsubmit="exploreSearch(event)">
+                    <div class="search-input-container">
+                        <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="text" id="explore-search-input" placeholder="Search destinations, cities, or experiences..." class="search-input">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="category-filters animate-fade-in">
+                <button class="filter-button active" data-category="all">🌍 All Places</button>
+                <button class="filter-button" data-category="beaches">🏖️ Beaches</button>
+                <button class="filter-button" data-category="mountains">🏔️ Mountains</button>
+                <button class="filter-button" data-category="heritage">🏛️ Heritage</button>
+                <button class="filter-button" data-category="spiritual">🕉️ Spiritual</button>
+                <button class="filter-button" data-category="adventure">🎢 Adventure</button>
+                <button class="filter-button" data-category="nature">🌿 Nature</button>
+            </div>
+
+            <!-- Results -->
+            <div class="results-info">
+                <p id="results-count">Found 8 amazing destinations</p>
+            </div>
+
+            <div class="explore-grid" id="explore-destinations">
+                <!-- Destination cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Emergency Contacts -->
+        <section id="emergency-contacts" class="emergency-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Emergency Contacts</h2>
+                    <p class="section-subtitle">Keep these numbers handy while you travel in India</p>
+                </div>
+
+                <div class="emergency-grid">
+                    <a class="emergency-card" href="tel:112"><div class="emergency-title">National Emergency Number</div><div class="emergency-number">112</div></a>
+                    <a class="emergency-card" href="tel:1363"><div class="emergency-title">Tourist Helpline</div><div class="emergency-number">1363</div></a>
+                    <a class="emergency-card" href="tel:100"><div class="emergency-title">Police</div><div class="emergency-number">100</div></a>
+                    <a class="emergency-card" href="tel:101"><div class="emergency-title">Fire</div><div class="emergency-number">101</div></a>
+                    <a class="emergency-card" href="tel:102"><div class="emergency-title">Ambulance</div><div class="emergency-number">102</div></a>
+                    <a class="emergency-card" href="tel:1073"><div class="emergency-title">Road Accident</div><div class="emergency-number">1073</div></a>
+                    <a class="emergency-card" href="tel:108"><div class="emergency-title">Disaster Management</div><div class="emergency-number">108</div></a>
+                    <a class="emergency-card" href="tel:1071"><div class="emergency-title">Air Accident</div><div class="emergency-number">1071</div></a>
+                    <a class="emergency-card" href="tel:1091"><div class="emergency-title">Women in Distress</div><div class="emergency-number">1091</div></a>
+                    <a class="emergency-card" href="tel:104"><div class="emergency-title">Medical Helpline</div><div class="emergency-number">104</div></a>
+                    <a class="emergency-card" href="tel:1322"><div class="emergency-title">Indian Railway Security Helpline</div><div class="emergency-number">1322</div></a>
+                    <a class="emergency-card" href="tel:1092"><div class="emergency-title">Earthquake Helpline Service</div><div class="emergency-number">1092</div></a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Trip Planner Page -->
+    <div id="trip-planner-page" class="page">
+        <div class="container">
+            <div class="page-header animate-fade-in">
+                <h1 class="page-title">AI Cost Planner</h1>
+                <p class="page-subtitle">Let AI create the perfect itinerary for your Indian adventure</p>
+            </div>
+
+            <div class="trip-form-container">
+                <form class="trip-form" id="trip-form" onsubmit="calculateTrip(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="destination">Destination</label>
+                            <select id="destination" required>
+                                <option value="">Select destination</option>
+                                <option value="mumbai">Mumbai</option>
+                                <option value="delhi">Delhi</option>
+                                <option value="goa">Goa</option>
+                                <option value="kerala">Kerala</option>
+                                <option value="rajasthan">Rajasthan</option>
+                                <option value="himachal">Himachal Pradesh</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hotel">Hotel Type</label>
+                            <select id="hotel" required>
+                                <option value="">Select hotel</option>
+                                <option value="budget" data-price="2000">Budget Hotel (₹2,000/night)</option>
+                                <option value="mid-range" data-price="5000">Mid-Range Hotel (₹5,000/night)</option>
+                                <option value="luxury" data-price="15000">Luxury Hotel (₹15,000/night)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="people">Number of People</label>
+                            <div class="number-input">
+                                <button type="button" onclick="changeValue('people', -1)">-</button>
+                                <input type="number" id="people" value="2" min="1" max="20" readonly>
+                                <button type="button" onclick="changeValue('people', 1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="days">Duration (Days)</label>
+                            <div class="number-input">
+                                <button type="button" onclick="changeValue('days', -1)">-</button>
+                                <input type="number" id="days" value="3" min="1" max="30" readonly>
+                                <button type="button" onclick="changeValue('days', 1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="transport">Transportation</label>
+                            <div class="transport-options">
+                                <label class="transport-option">
+                                    <input type="radio" name="transport" value="flight" data-price="8000">
+                                    <span>✈️ Flight (₹8,000/person)</span>
+                                </label>
+                                <label class="transport-option">
+                                    <input type="radio" name="transport" value="train" data-price="1500" checked>
+                                    <span>🚂 Train (₹1,500/person)</span>
+                                </label>
+                                <label class="transport-option">
+                                    <input type="radio" name="transport" value="bus" data-price="800">
+                                    <span>🚌 Bus (₹800/person)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="primary-button">Calculate Trip Cost</button>
+                </form>
+
+                <!-- Cost Breakdown -->
+                <div class="cost-breakdown" id="cost-breakdown" style="display: none;">
+                    <h3>Trip Cost Breakdown</h3>
+                    <div class="cost-item">
+                        <span>Hotel Cost:</span>
+                        <span id="hotel-cost">₹0</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Transportation Cost:</span>
+                        <span id="transport-cost">₹0</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Food & Miscellaneous:</span>
+                        <span id="misc-cost">₹0</span>
+                    </div>
+                    <div class="cost-item total">
+                        <span>Total Trip Cost:</span>
+                        <span id="total-cost">₹0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Page -->
+    <div id="reviews-page" class="page">
+        <div class="container">
+            <div class="page-header animate-fade-in">
+                <h1 class="page-title">Travel Reviews</h1>
+                <p class="page-subtitle">Share your experiences and read authentic reviews from fellow travelers</p>
+            </div>
+
+            <!-- Add Review Button -->
+            <div class="add-review-section">
+                <button class="primary-button" onclick="toggleReviewForm()">
+                    <svg class="button-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Share Your Experience
+                </button>
+            </div>
+
+            <!-- Review Form -->
+            <div class="review-form-container" id="review-form-container" style="display: none;">
+                <form class="review-form" onsubmit="submitReview(event)">
+                    <div class="form-group">
+                        <label for="review-place">Place Name</label>
+                        <input type="text" id="review-place" placeholder="Enter place name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review-rating">Rating</label>
+                        <div class="star-rating" id="star-rating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <input type="hidden" id="review-rating" value="5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review-text">Your Review</label>
+                        <textarea id="review-text" placeholder="Share your experience..." rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reviewer-name">Your Name</label>
+                        <input type="text" id="reviewer-name" placeholder="Enter your name" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="secondary-button" onclick="toggleReviewForm()">Cancel</button>
+                        <button type="submit" class="primary-button">Submit Review</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Reviews List -->
+            <div class="reviews-list" id="reviews-list">
+                <!-- Reviews will be generated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Authentication Page -->
+    <div id="auth-page" class="page">
+        <div class="container auth-container">
+            <div class="page-header">
+                <h1 class="page-title">Welcome to Treviaa</h1>
+                <p class="page-subtitle">Sign in to continue or create a new account</p>
+            </div>
+            <div class="auth-card">
+                <div class="auth-tabs">
+                    <button id="tab-signin" class="auth-tab active" onclick="openAuthTab('signin')">Sign In</button>
+                    <button id="tab-signup" class="auth-tab" onclick="openAuthTab('signup')">Create Account</button>
+                </div>
+                <div class="auth-forms">
+                    <form id="auth-signin-form" class="auth-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="signin-email">Email</label>
+                            <input id="signin-email" type="email" required placeholder="you@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="signin-password">Password</label>
+                            <input id="signin-password" type="password" required placeholder="Enter password">
+                        </div>
+                        <button type="submit" class="primary-button">Sign In</button>
+                    </form>
+                    <form id="auth-signup-form" class="auth-form" onsubmit="handleLogin(event)" style="display:none;">
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input id="signup-email" type="email" required placeholder="you@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input id="signup-password" type="password" required placeholder="Create a password">
+                        </div>
+                        <button type="submit" class="primary-button">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
